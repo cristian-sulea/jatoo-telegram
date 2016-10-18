@@ -40,6 +40,12 @@
   <dependencies>
 
     <dependency>
+      <artifactId>jatoo-resources</artifactId>
+      <groupId>${project.groupId}</groupId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.telegram</groupId>
       <artifactId>telegrambots</artifactId>
       <version>2.4.0</version>

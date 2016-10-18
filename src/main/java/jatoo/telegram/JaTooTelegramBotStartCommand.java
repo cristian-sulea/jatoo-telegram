@@ -30,7 +30,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
  * A very simple implementation of the <code>/start</code> {@link BotCommand}
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.0, October 12, 2016
+ * @version 1.1, October 18, 2016
  */
 public class JaTooTelegramBotStartCommand extends BotCommand {
 
@@ -47,20 +47,15 @@ public class JaTooTelegramBotStartCommand extends BotCommand {
   @Override
   public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
 
-    String userName = chat.getUserName();
-    if (userName == null || userName.isEmpty()) {
-      userName = user.getFirstName() + " " + user.getLastName();
+    String username = chat.getUserName();
+    if (username == null || username.isEmpty()) {
+      username = user.getFirstName() + " " + user.getLastName();
     }
-    userName = userName.trim();
-
-    StringBuilder buffer = new StringBuilder();
-
-    buffer.append("Welcome ").append(userName).append("\n");
-    buffer.append(welcomeMessage);
+    username = username.trim();
 
     SendMessage response = new SendMessage();
     response.setChatId(chat.getId().toString());
-    response.setText(buffer.toString());
+    response.setText(welcomeMessage.replaceAll("\\%username\\%", username));
 
     try {
       absSender.sendMessage(response);

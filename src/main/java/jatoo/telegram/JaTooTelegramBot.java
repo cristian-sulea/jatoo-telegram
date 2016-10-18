@@ -27,6 +27,8 @@ import org.telegram.telegrambots.bots.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.bots.commands.BotCommand;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import jatoo.resources.ResourcesTexts;
+
 /**
  * A skeletal implementation of the {@link TelegramLongPollingBot} bot.
  * 
@@ -38,6 +40,8 @@ public abstract class JaTooTelegramBot extends TelegramLongPollingCommandBot {
   /** the logger */
   private static final Log logger = LogFactory.getLog(JaTooTelegramBot.class);
 
+  private final ResourcesTexts texts = new ResourcesTexts(getClass());
+
   private final String botUsername;
   private final String botToken;
 
@@ -46,7 +50,7 @@ public abstract class JaTooTelegramBot extends TelegramLongPollingCommandBot {
     this.botUsername = username;
     this.botToken = token;
 
-    register(new JaTooTelegramBotStartCommand(getWelcomeMessage()));
+    register(new JaTooTelegramBotStartCommand(texts.getText("message.welcome")));
 
     if (commands != null) {
       for (BotCommand command : commands) {
@@ -63,7 +67,7 @@ public abstract class JaTooTelegramBot extends TelegramLongPollingCommandBot {
 
         SendMessage response = new SendMessage();
         response.setChatId(message.getChatId().toString());
-        response.setText(getHelpMessage());
+        response.setText(texts.getText("message.help"));
 
         try {
           sendMessage(response);
@@ -83,9 +87,5 @@ public abstract class JaTooTelegramBot extends TelegramLongPollingCommandBot {
   public String getBotToken() {
     return botToken;
   }
-
-  protected abstract String getWelcomeMessage();
-
-  protected abstract String getHelpMessage();
 
 }
