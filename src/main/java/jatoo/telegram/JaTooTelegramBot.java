@@ -31,14 +31,20 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
  * A skeletal implementation of the {@link TelegramLongPollingBot} bot.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.0, October 12, 2016
+ * @version 1.1, October 18, 2016
  */
 public abstract class JaTooTelegramBot extends TelegramLongPollingCommandBot {
 
   /** the logger */
   private static final Log logger = LogFactory.getLog(JaTooTelegramBot.class);
 
-  public JaTooTelegramBot(BotCommand... commands) {
+  private final String botUsername;
+  private final String botToken;
+
+  public JaTooTelegramBot(String username, String token, BotCommand... commands) {
+
+    this.botUsername = username;
+    this.botToken = token;
 
     register(new JaTooTelegramBotStartCommand(getWelcomeMessage()));
 
@@ -66,6 +72,16 @@ public abstract class JaTooTelegramBot extends TelegramLongPollingCommandBot {
         }
       }
     }
+  }
+
+  @Override
+  public String getBotUsername() {
+    return botUsername;
+  }
+
+  @Override
+  public String getBotToken() {
+    return botToken;
   }
 
   protected abstract String getWelcomeMessage();
